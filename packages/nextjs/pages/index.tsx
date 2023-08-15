@@ -1,9 +1,30 @@
 import Link from "next/link";
+import { gql, useQuery } from "@apollo/client";
 import type { NextPage } from "next";
 import { BugAntIcon, MagnifyingGlassIcon, SparklesIcon } from "@heroicons/react/24/outline";
 import { MetaHeader } from "~~/components/MetaHeader";
 
 const Home: NextPage = () => {
+  const GREETINGS_GRAPHQL = `
+  {
+    greetings(first: 25, orderBy: createdAt, orderDirection: desc) {
+      id
+      greeting
+      premium
+      value
+      createdAt
+      sender {
+        address
+        greetingCount
+      }
+    }
+  }
+  `;
+
+  const GREETINGS_GQL = gql(GREETINGS_GRAPHQL);
+  const { data } = useQuery(GREETINGS_GQL, { pollInterval: 1000 });
+  console.log("Greeting::", data.greetings);
+
   return (
     <>
       <MetaHeader />

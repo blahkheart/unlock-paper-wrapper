@@ -12,22 +12,21 @@ import { Header } from "~~/components/Header";
 import { BlockieAvatar } from "~~/components/scaffold-eth";
 import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth";
 import { useGlobalState } from "~~/services/store/store";
-import { wagmiClient } from "~~/services/web3/wagmiClient";
+import { wagmiConfig } from "~~/services/web3/wagmiConfig";
 import { appChains } from "~~/services/web3/wagmiConnectors";
 import "~~/styles/globals.css";
 
+const subgraphUri = "http://localhost:8000/subgraphs/name/scaffold-eth/your-contract";
+const apolloClient = new ApolloClient({
+  uri: subgraphUri,
+  cache: new InMemoryCache(),
+});
 const ScaffoldEthApp = ({ Component, pageProps }: AppProps) => {
   const price = useNativeCurrencyPrice();
   const setNativeCurrencyPrice = useGlobalState(state => state.setNativeCurrencyPrice);
   // This variable is required for initial client side rendering of correct theme for RainbowKit
   const [isDarkTheme, setIsDarkTheme] = useState(true);
   const { isDarkMode } = useDarkMode();
-
-  const subgraphUri = "http://localhost:8000/subgraphs/name/scaffold-eth/your-contract";
-  const apolloClient = new ApolloClient({
-    uri: subgraphUri,
-    cache: new InMemoryCache(),
-  });
 
   useEffect(() => {
     if (price > 0) {
@@ -41,7 +40,7 @@ const ScaffoldEthApp = ({ Component, pageProps }: AppProps) => {
 
   return (
     <ApolloProvider client={apolloClient}>
-      <WagmiConfig client={wagmiClient}>
+      <WagmiConfig config={wagmiConfig}>
         <NextNProgress />
         <RainbowKitProvider
           chains={appChains.chains}
