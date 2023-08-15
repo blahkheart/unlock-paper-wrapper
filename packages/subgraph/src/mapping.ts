@@ -1,35 +1,35 @@
 import { BigInt, Address } from "@graphprotocol/graph-ts";
 import {
-  YourContract,
-  GreetingChange,
-} from "../generated/YourContract/YourContract";
-import { Greeting, Sender } from "../generated/schema";
+  UnlockPaperWrapperFactory,
+  NewWrap,
+} from "../generated/UnlockPaperWrapperFactory/UnlockPaperWrapperFactory";
+import { LockWrap, Creator } from "../generated/schema";
 
-export function handleGreetingChange(event: GreetingChange): void {
-  let senderString = event.params.greetingSetter.toHexString();
+export function handleNewWrap(event: NewWrap): void {
+  let creatorString = event.params.creator.toHexString();
 
-  let sender = Sender.load(senderString);
+  let creator = Creator.load(creatorString);
 
-  if (sender === null) {
-    sender = new Sender(senderString);
-    sender.address = event.params.greetingSetter;
-    sender.createdAt = event.block.timestamp;
-    sender.greetingCount = BigInt.fromI32(1);
+  if (creator === null) {
+    creator = new Creator(creatorString);
+    creator.address = event.params.creator;
+    creator.createdAt = event.block.timestamp;
+    creator.wrapsCount = BigInt.fromI32(1);
   } else {
-    sender.greetingCount = sender.greetingCount.plus(BigInt.fromI32(1));
+    creator.wrapsCount = creator.wrapsCount.plus(BigInt.fromI32(1));
   }
 
-  let greeting = new Greeting(
+  let lockWrap = new LockWrap(
     event.transaction.hash.toHex() + "-" + event.logIndex.toString()
   );
 
-  greeting.greeting = event.params.newGreeting;
-  greeting.sender = senderString;
-  greeting.premium = event.params.premium;
-  greeting.value = event.params.value;
-  greeting.createdAt = event.block.timestamp;
-  greeting.transactionHash = event.transaction.hash.toHex();
+  lockWrap.address = event.params.wrapper;
+  lockWrap.creator = creatorString;
+  lockWrap.lock = event.params.lock;
+  lockWrap.creator = event.params.creator.toHexString();;
+  lockWrap.createdAt = event.block.timestamp;
+  lockWrap.transactionHash = event.transaction.hash.toHex();
 
-  greeting.save();
-  sender.save();
+  lockWrap.save();
+  creator.save();
 }

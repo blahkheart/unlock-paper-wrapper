@@ -1,17 +1,33 @@
-type Greeting @entity {
+# type Greeting @entity {
+#   id: ID!
+#   sender: Sender!
+#   greeting: String!
+#   premium: Boolean
+#   value: BigInt
+#   createdAt: BigInt!
+#   transactionHash: String!
+# }
+
+# type Sender @entity {
+#   id: ID!
+#   address: Bytes!
+#   greetings: [Greeting!] @derivedFrom(field: "sender")
+#   createdAt: BigInt!
+#   greetingCount: BigInt!
+# }
+
+type LockWrap @entity {
   id: ID!
-  sender: Sender!
-  greeting: String!
-  premium: Boolean
-  value: BigInt
+  address: Bytes!
+  lock: Bytes!
+  creator: Creator!
   createdAt: BigInt!
   transactionHash: String!
 }
 
-type Sender @entity {
+type Creator @entity {
   id: ID!
   address: Bytes!
-  greetings: [Greeting!] @derivedFrom(field: "sender")
-  createdAt: BigInt!
-  greetingCount: BigInt!
+  wrapsCount: BigInt!
+  wraps: [LockWrap!] @derivedFrom(field: "creator")
 }

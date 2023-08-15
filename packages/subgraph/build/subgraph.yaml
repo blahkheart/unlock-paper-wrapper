@@ -1,26 +1,26 @@
 specVersion: 0.0.4
-description: Greetings
+description: LockWrap
 repository: https://github.com/scaffold-eth/se-2/packages/subgraph/
 schema:
   file: schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: YourContract
+    name: UnlockPaperWrapperFactory
     network: localhost
     source:
-      abi: YourContract
-      address: "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+      abi: UnlockPaperWrapperFactory
+      address: "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9"
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
-        - Greeting
-        - Sender
+        - LockWrap
+        - Creator
       abis:
-        - name: YourContract
-          file: YourContract/abis/localhost_YourContract.json
+        - name: UnlockPaperWrapperFactory
+          file: UnlockPaperWrapperFactory/abis/localhost_UnlockPaperWrapperFactory.json
       eventHandlers:
-        - event: GreetingChange(address,string,bool,uint256)
-          handler: handleGreetingChange
-      file: YourContract/YourContract.wasm
+        - event: NewWrap(indexed address,indexed address,indexed address)
+          handler: handleNewWrap
+      file: UnlockPaperWrapperFactory/UnlockPaperWrapperFactory.wasm

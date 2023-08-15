@@ -11,7 +11,7 @@ import {
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
-export class Greeting extends Entity {
+export class LockWrap extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -19,18 +19,18 @@ export class Greeting extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save Greeting entity without an ID");
+    assert(id != null, "Cannot save LockWrap entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type Greeting must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type LockWrap must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("Greeting", id.toString(), this);
+      store.set("LockWrap", id.toString(), this);
     }
   }
 
-  static load(id: string): Greeting | null {
-    return changetype<Greeting | null>(store.get("Greeting", id));
+  static load(id: string): LockWrap | null {
+    return changetype<LockWrap | null>(store.get("LockWrap", id));
   }
 
   get id(): string {
@@ -42,48 +42,31 @@ export class Greeting extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get sender(): string {
-    let value = this.get("sender");
+  get address(): Bytes {
+    let value = this.get("address");
+    return value!.toBytes();
+  }
+
+  set address(value: Bytes) {
+    this.set("address", Value.fromBytes(value));
+  }
+
+  get lock(): Bytes {
+    let value = this.get("lock");
+    return value!.toBytes();
+  }
+
+  set lock(value: Bytes) {
+    this.set("lock", Value.fromBytes(value));
+  }
+
+  get creator(): string {
+    let value = this.get("creator");
     return value!.toString();
   }
 
-  set sender(value: string) {
-    this.set("sender", Value.fromString(value));
-  }
-
-  get greeting(): string {
-    let value = this.get("greeting");
-    return value!.toString();
-  }
-
-  set greeting(value: string) {
-    this.set("greeting", Value.fromString(value));
-  }
-
-  get premium(): boolean {
-    let value = this.get("premium");
-    return value!.toBoolean();
-  }
-
-  set premium(value: boolean) {
-    this.set("premium", Value.fromBoolean(value));
-  }
-
-  get value(): BigInt | null {
-    let value = this.get("value");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBigInt();
-    }
-  }
-
-  set value(value: BigInt | null) {
-    if (!value) {
-      this.unset("value");
-    } else {
-      this.set("value", Value.fromBigInt(<BigInt>value));
-    }
+  set creator(value: string) {
+    this.set("creator", Value.fromString(value));
   }
 
   get createdAt(): BigInt {
@@ -105,7 +88,7 @@ export class Greeting extends Entity {
   }
 }
 
-export class Sender extends Entity {
+export class Creator extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -113,18 +96,18 @@ export class Sender extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save Sender entity without an ID");
+    assert(id != null, "Cannot save Creator entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type Sender must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type Creator must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("Sender", id.toString(), this);
+      store.set("Creator", id.toString(), this);
     }
   }
 
-  static load(id: string): Sender | null {
-    return changetype<Sender | null>(store.get("Sender", id));
+  static load(id: string): Creator | null {
+    return changetype<Creator | null>(store.get("Creator", id));
   }
 
   get id(): string {
@@ -145,8 +128,17 @@ export class Sender extends Entity {
     this.set("address", Value.fromBytes(value));
   }
 
-  get greetings(): Array<string> | null {
-    let value = this.get("greetings");
+  get wrapsCount(): BigInt {
+    let value = this.get("wrapsCount");
+    return value!.toBigInt();
+  }
+
+  set wrapsCount(value: BigInt) {
+    this.set("wrapsCount", Value.fromBigInt(value));
+  }
+
+  get wraps(): Array<string> | null {
+    let value = this.get("wraps");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
@@ -161,14 +153,5 @@ export class Sender extends Entity {
 
   set createdAt(value: BigInt) {
     this.set("createdAt", Value.fromBigInt(value));
-  }
-
-  get greetingCount(): BigInt {
-    let value = this.get("greetingCount");
-    return value!.toBigInt();
-  }
-
-  set greetingCount(value: BigInt) {
-    this.set("greetingCount", Value.fromBigInt(value));
   }
 }
