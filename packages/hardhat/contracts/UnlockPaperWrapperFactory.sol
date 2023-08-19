@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: GPL-3.0
-
 pragma solidity >=0.8.2 <0.9.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -16,7 +15,7 @@ contract UnlockPaperWrapperFactory is Ownable {
     address public dev = 0xCA7632327567796e51920F6b16373e92c7823854; // Developer's Address
     mapping(address => address) public lockWraps;
     
-    event NewWrap(address indexed wrapper, address indexed lock);
+    event NewWrap(address indexed wrapper, address indexed lock, address indexed creator);
 
     function _isLockManager(address _lockAddress)
         internal
@@ -31,13 +30,13 @@ contract UnlockPaperWrapperFactory is Ownable {
             lockWraps[_lockAddress] == address(0),
             "Wrapper already exists"
         );
-        require(_isLockManager(_lockAddress), "Not Lock Manager");
+        // require(_isLockManager(_lockAddress), "Not Lock Manager");
         UnlockPaperWrapper newWrapper = new UnlockPaperWrapper(
             _lockAddress,
             dev // sets developer as referrer
         );
         lockWraps[_lockAddress] = address(newWrapper);
-        emit NewWrap(address(newWrapper), _lockAddress);
+        emit NewWrap(address(newWrapper), _lockAddress, msg.sender);
     }
 
     function setDevAddress(address _newAddress) external onlyOwner {

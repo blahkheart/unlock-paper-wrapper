@@ -2,12 +2,12 @@ import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
 
 /**
- * Deploys a contract named "YourContract" using the deployer account and
+ * Deploys a contract named "UnlockPaperWrapperFactory" using the deployer account and
  * constructor arguments set to the deployer address
  *
  * @param hre HardhatRuntimeEnvironment object.
  */
-const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
+const deployUnlockPaperWrapperFactory: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   /*
     On localhost, the deployer account is the one that comes with Hardhat, which is already funded.
 
@@ -21,10 +21,10 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   const { deployer } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;
 
-  await deploy("YourContract", {
+  await deploy("UnlockPaperWrapperFactory", {
     from: deployer,
     // Contract constructor arguments
-    args: [deployer],
+    // args: [deployer],
     log: true,
     // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
     // automatically mining the contract deployment transaction. There is no effect on live networks.
@@ -32,11 +32,12 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   });
 
   // Get the deployed contract
-  // const yourContract = await hre.ethers.getContract("YourContract", deployer);
+  const yourContract = await hre.ethers.getContract("UnlockPaperWrapperFactory", deployer);
+  yourContract.transferOwnership("0xCA7632327567796e51920F6b16373e92c7823854");
 };
 
-export default deployYourContract;
+export default deployUnlockPaperWrapperFactory;
 
 // Tags are useful if you have multiple deploy files and only want to run one of them.
-// e.g. yarn deploy --tags YourContract
-deployYourContract.tags = ["YourContract"];
+// e.g. yarn deploy --tags UnlockPaperWrapperFactory
+deployUnlockPaperWrapperFactory.tags = ["UnlockPaperWrapperFactory"];
