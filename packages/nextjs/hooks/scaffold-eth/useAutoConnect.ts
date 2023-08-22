@@ -6,6 +6,7 @@ import scaffoldConfig from "~~/scaffold.config";
 import { burnerWalletId, defaultBurnerChainId } from "~~/services/web3/wagmi-burner/BurnerConnector";
 import { getTargetNetwork } from "~~/utils/scaffold-eth";
 
+
 const walletIdStorageKey = "scaffoldEth2.wallet";
 
 /**
@@ -16,12 +17,12 @@ const walletIdStorageKey = "scaffoldEth2.wallet";
  */
 const getInitialConnector = (
   previousWalletId: string,
-  connectors: Connector<any, any, any>[],
+  connectors: Connector< any, any>[],
 ): { connector: Connector | undefined; chainId?: number } | undefined => {
-  const burnerConfig = scaffoldConfig.burnerWallet;
+  const burnerConfig = scaffoldConfig.onlyLocalBurnerWallet;
   const targetNetwork = getTargetNetwork();
 
-  const allowBurner = burnerConfig.enabled && (burnerConfig.onlyLocal ? targetNetwork.id === hardhat.id : true);
+  const allowBurner = burnerConfig && targetNetwork.id === hardhat.id;
 
   if (!previousWalletId) {
     // The user was not connected to a wallet

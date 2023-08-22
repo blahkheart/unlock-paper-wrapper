@@ -30,7 +30,7 @@ contract UnlockPaperWrapperFactory is Ownable {
             lockWraps[_lockAddress] == address(0),
             "Wrapper already exists"
         );
-        // require(_isLockManager(_lockAddress), "Not Lock Manager");
+        require(_isLockManager(_lockAddress), "Not Lock Manager");
         UnlockPaperWrapper newWrapper = new UnlockPaperWrapper(
             _lockAddress,
             dev // sets developer as referrer

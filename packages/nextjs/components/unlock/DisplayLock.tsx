@@ -33,7 +33,7 @@ export const DisplayLock = () => {
   });
 
   const [wrappedLocks, setWrappedLocks] = useState<WrappedLockEvent[] | undefined>(newWrapEvents);
-
+  const [filteredEvents, setFilteredEvents] = useState<WrappedLockEvent[]>([]);
   const handleNewWrapEvent = (logs: any[]) => {
     logs.forEach(log => {
       const { wrapper, lock, creator } = log.args;
@@ -70,18 +70,18 @@ export const DisplayLock = () => {
       const deduplicatedEvents = Array.from(new Set(combinedEvents.map(e => e.args.lock))).map(lock =>
         combinedEvents.find(e => e.args.lock === lock),
       );
-      console.log("deduplicatedEvents", deduplicatedEvents);
-      setWrappedLocks(deduplicatedEvents);
+      const _filteredEvents = deduplicatedEvents.filter(event => event.args.creator === address);
+      setFilteredEvents(_filteredEvents);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newWrapEvents]);
+  }, [newWrapEvents, wrappedLocks]);
 
   return (
     <div className="flex flex-col justify-center items-center py-10 px-5 sm:px-0 lg:py-auto max-w-[100vw] ">
       <h1 className="sm:text-4xl text-center mb-10">Your Deployed Wrappers</h1>
       <ul>
-        {!isLoadingEvents && wrappedLocks && wrappedLocks.length > 0 ? (
-          wrappedLocks.map((event, index) => (
+        {!isLoadingEvents && wrappedLocks && filteredEvents.length > 0 ? (
+          filteredEvents.map((event, index) => (
             <DisplayListItem key={`${index}-${event.args.lock}`} event={event}></DisplayListItem>
           ))
         ) : !errorReadingEvents ? (
