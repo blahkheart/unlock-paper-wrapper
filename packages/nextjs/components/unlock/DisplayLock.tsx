@@ -80,16 +80,16 @@ export const DisplayLock = () => {
     <div className="flex flex-col justify-center items-center py-10 px-5 sm:px-0 lg:py-auto max-w-[100vw] ">
       <h1 className="sm:text-4xl text-center mb-10">Your Deployed Wrappers</h1>
       <ul>
-        {!isLoadingEvents && wrappedLocks && filteredEvents.length > 0 ? (
-          filteredEvents.map((event, index) => (
-            <DisplayListItem key={`${index}-${event.args.lock}`} event={event}></DisplayListItem>
-          ))
-        ) : !errorReadingEvents ? (
-          <div className="sm:text-2xl text-center">No lock wrappers deployed...</div>
-        ) : isLoadingEvents ? (
+        {isLoadingEvents ? (
           <div className="w-full text-center">
             <Spinner />
           </div>
+        ) : filteredEvents.length > 0 ? (
+          filteredEvents.map((event, index) => (
+            <DisplayListItem key={`${index}-${event.args.lock}`} event={event}></DisplayListItem>
+          ))
+        ) : !errorReadingEvents && filteredEvents.length === 0 ? (
+          <div className="sm:text-2xl text-center">No lock wrappers deployed...</div>
         ) : (
           <div className="sm:text-2xl text-red text-center">Error reading events!</div>
         )}
