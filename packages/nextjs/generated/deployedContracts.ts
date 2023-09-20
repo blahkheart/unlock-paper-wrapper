@@ -1,8 +1,8 @@
 const contracts = {
-  56: [
+  1: [
     {
-      chainId: "56",
-      name: "bsc",
+      chainId: "1",
+      name: "mainnet",
       contracts: {
         UnlockPaperWrapperFactory: {
           address: "0x08CCC828fB58A8943d415d1A489356C8bD7Ee36D",
@@ -147,13 +147,13 @@ const contracts = {
       },
     },
   ],
-  31337: [
+  56: [
     {
-      chainId: "31337",
-      name: "localhost",
+      chainId: "56",
+      name: "bsc",
       contracts: {
         UnlockPaperWrapperFactory: {
-          address: "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+          address: "0x08CCC828fB58A8943d415d1A489356C8bD7Ee36D",
           abi: [
             {
               anonymous: false,
