@@ -32,8 +32,8 @@ const deployUnlockPaperWrapperFactory: DeployFunction = async function (hre: Har
   });
 
   // Get the deployed contract
-  // const yourContract = await hre.ethers.getContract("UnlockPaperWrapperFactory", deployer);
-  // yourContract.transferOwnership("0xCA7632327567796e51920F6b16373e92c7823854");
+  const yourContract = await hre.ethers.getContract("UnlockPaperWrapperFactory", deployer);
+  await yourContract.transferOwnership("0xE11Cd5244DE68D90755a1d142Ab446A4D17cDC10");
 };
 
 export default deployUnlockPaperWrapperFactory;

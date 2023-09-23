@@ -3,8 +3,10 @@ import { Abi, ExtractAbiFunctionNames } from "abitype";
 import { parseEther } from "viem";
 import { useContractWrite, useNetwork } from "wagmi";
 import { getParsedError } from "~~/components/scaffold-eth";
+import { useScaffoldConfig } from "~~/context/ScaffoldConfigContext";
 import { useDeployedContractInfo, useTransactor } from "~~/hooks/scaffold-eth";
-import { getTargetNetwork, notification } from "~~/utils/scaffold-eth";
+// import { getTargetNetwork, notification } from "~~/utils/scaffold-eth";
+import { notification } from "~~/utils/scaffold-eth";
 import { ContractAbi, ContractName, UseScaffoldWriteConfig } from "~~/utils/scaffold-eth/contract";
 
 type UpdatedArgs = Parameters<ReturnType<typeof useContractWrite<Abi, string, undefined>>["writeAsync"]>[0];
@@ -33,7 +35,7 @@ export const useScaffoldContractWrite = <
   const { chain } = useNetwork();
   const writeTx = useTransactor();
   const [isMining, setIsMining] = useState(false);
-  const configuredNetwork = getTargetNetwork();
+  const { configuredNetwork } = useScaffoldConfig();
 
   const wagmiContractWrite = useContractWrite({
     chainId: configuredNetwork.id,

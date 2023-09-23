@@ -1,5 +1,6 @@
 import { useDisconnect, useSwitchNetwork } from "wagmi";
 import { ArrowLeftOnRectangleIcon, ArrowsRightLeftIcon, ChevronDownIcon } from "@heroicons/react/24/solid";
+import { useScaffoldConfig } from "~~/context/ScaffoldConfigContext";
 import { useNetworkColor } from "~~/hooks/scaffold-eth";
 import { enabledChains } from "~~/services/web3/wagmiConnectors";
 
@@ -17,6 +18,7 @@ export const SelectNetwork: React.FC<ISelectNetwork> = ({ network }) => {
   const { disconnect } = useDisconnect();
   const { switchNetwork } = useSwitchNetwork();
   //   const configuredNetwork = getTargetNetwork();
+  const { setNetwork } = useScaffoldConfig();
 
   return (
     <>
@@ -28,7 +30,14 @@ export const SelectNetwork: React.FC<ISelectNetwork> = ({ network }) => {
         <ul tabIndex={0} className="dropdown-content menu p-2 mt-1 shadow-lg bg-base-100 rounded-box">
           {enabledChains.map(chain => (
             <li key={chain.id}>
-              <button className="menu-item" type="button" onClick={() => switchNetwork?.(chain.id)}>
+              <button
+                className="menu-item"
+                type="button"
+                onClick={() => {
+                  switchNetwork?.(chain.id);
+                  setNetwork(chain);
+                }}
+              >
                 <ArrowsRightLeftIcon className="h-6 w-4 ml-2 sm:ml-0" />
                 <span className="whitespace-nowrap">
                   Switch to <span style={{ color: networkColor }}>{chain.name}</span>

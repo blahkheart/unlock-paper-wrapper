@@ -25,7 +25,7 @@ const Debug: NextPage = () => {
           <p className="text-3xl mt-14">No contracts found!</p>
         ) : (
           <>
-            {contractNames.length > 1 && (
+            {contractNames.length > 0 && (
               <div className="flex flex-row gap-2 w-full max-w-7xl pb-1 px-6 lg:px-10 flex-wrap">
                 {contractNames.map(contractName => (
                   <button

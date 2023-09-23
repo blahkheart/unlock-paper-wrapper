@@ -31,7 +31,6 @@ export const DisplayLock = () => {
     filters: { creator: address },
     blockData: true,
   });
-
   const [wrappedLocks, setWrappedLocks] = useState<WrappedLockEvent[] | undefined>(newWrapEvents);
   const [filteredEvents, setFilteredEvents] = useState<WrappedLockEvent[]>([]);
   const handleNewWrapEvent = (logs: any[]) => {

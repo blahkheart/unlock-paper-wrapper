@@ -6,6 +6,7 @@ import { useDeployedContractInfo } from "~~/hooks/scaffold-eth";
 import { replacer } from "~~/utils/scaffold-eth/common";
 import { ContractAbi, ContractName, UseScaffoldEventHistoryConfig } from "~~/utils/scaffold-eth/contract";
 
+
 /**
  * @dev reads events from a deployed contract
  * @param config - The config settings
