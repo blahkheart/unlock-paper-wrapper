@@ -9,7 +9,6 @@ import { useDeployedContractInfo, useNetworkColor } from "~~/hooks/scaffold-eth"
 // import { getTargetNetwork } from "~~/utils/scaffold-eth";
 import { ContractName } from "~~/utils/scaffold-eth/contract";
 
-
 type ContractUIProps = {
   contractName: ContractName;
   className?: string;

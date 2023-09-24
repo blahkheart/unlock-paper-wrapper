@@ -37,8 +37,8 @@ export const WrapLock = () => {
                 This tool lets you create a wrapper for your <strong>Unlock Protocol</strong> Lock smart contracts to
                 enable compatibility with <strong>Paper.xyz</strong>. Begin by entering your lock address into the input
                 below and click the send button, then copy the deployed wrapper address and ABI for use in your
-                paper.xyz dashboard when <strong>registering a contract</strong>. That&apos;s it! Now you can create custom
-                Paper checkouts for your locks. Have fun trying it out!
+                paper.xyz dashboard when <strong>registering a contract</strong>. That&apos;s it! Now you can create
+                custom Paper checkouts for your locks. Have fun trying it out!
               </div>
             </div>
           </div>

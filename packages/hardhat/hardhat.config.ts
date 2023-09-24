@@ -26,7 +26,6 @@ const config: HardhatUserConfig = {
       },
     },
   },
-  // defaultNetwork: "localhost",
   defaultNetwork: "localhost",
   namedAccounts: {
     deployer: {
