@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { Spinner } from "../Spinner";
 import DisplayListItem from "./DisplayListItem";
 import { useAccount } from "wagmi";
+import { useScaffoldConfig } from "~~/context/ScaffoldConfigContext";
 import { useScaffoldEventHistory, useScaffoldEventSubscriber } from "~~/hooks/scaffold-eth";
+import { getDeployedBlockNumber } from "~~/utils/getDeployedBlockNumber";
 
 type WrappedLock = {
   wrapper: string | undefined;
@@ -20,6 +22,15 @@ export interface WrappedLockEvent {
 
 export const DisplayLock = () => {
   const { address } = useAccount();
+  const { configuredNetwork } = useScaffoldConfig();
+  const [blockNumber, setBlockNumber] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    if (!configuredNetwork) return;
+    const deployedBlock = getDeployedBlockNumber(configuredNetwork.id);
+    setBlockNumber(deployedBlock);
+  }, [configuredNetwork]);
+
   const {
     data: newWrapEvents,
     isLoading: isLoadingEvents,
@@ -27,10 +38,11 @@ export const DisplayLock = () => {
   } = useScaffoldEventHistory({
     contractName: "UnlockPaperWrapperFactory",
     eventName: "NewWrap",
-    fromBlock: process.env.NEXT_PUBLIC_DEPLOY_BLOCK ? BigInt(process.env.NEXT_PUBLIC_DEPLOY_BLOCK) : 0n,
+    fromBlock: blockNumber ? BigInt(blockNumber) : 0n,
     filters: { creator: address },
     blockData: true,
   });
+
   const [wrappedLocks, setWrappedLocks] = useState<WrappedLockEvent[] | undefined>(newWrapEvents);
   const [filteredEvents, setFilteredEvents] = useState<WrappedLockEvent[]>([]);
   const handleNewWrapEvent = (logs: any[]) => {

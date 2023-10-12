@@ -1,8 +1,6 @@
 import { useScaffoldConfig } from "~~/context/ScaffoldConfigContext";
 import { useAccountBalance } from "~~/hooks/scaffold-eth";
 
-// import { getTargetNetwork } from "~~/utils/scaffold-eth";
-
 type TBalanceProps = {
   address?: string;
   className?: string;
